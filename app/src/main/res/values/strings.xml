@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">DamLab3</string>
+    <string name="AR_title">Agregar Recordatorio</string>
+    <string name="AR_fecha_text">Fecha</string>
+    <string name="AR_fecha_hint">DD/MM/AAAA</string>
+    <string name="AR_hora_text">Hora</string>
+    <string name="AR_hora_hint">HH:MM</string>
+    <string name="AR_descripcion_text">Descripción</string>
+    <string name="AR_descripcion_hint">Descripción del recordatorio</string>
+    <string name="channel_id">999</string>
+    <string name="channel_name">CANAL1</string>
+    <string name="channel_description">MI CANAL 1</string>
 </resources>

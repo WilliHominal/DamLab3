@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="AR_floating_button_margin">15dp</dimen>
+    <dimen name="AR_edit_text_marginend">10dp</dimen>
+    <dimen name="AR_text_view_margin">10dp</dimen>
+    <dimen name="AR_title_paddingH">60dp</dimen>
+    <dimen name="AR_title_paddingV">5dp</dimen>
+    <dimen name="AR_title_textsize">25sp</dimen>
+    <dimen name="AR_text_view_textsize">17sp</dimen>
+    <dimen name="AR_edit_text_textsize">17sp</dimen>
+</resources>

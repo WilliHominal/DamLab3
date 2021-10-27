@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:background="@color/background_primary">
+    tools:context=".AgregarRecordatorioActivity"
+    android:background="@color/AR_background_primary_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,16 +16,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Agregar recordatorio"
+            android:text="@string/AR_title"
             android:textAlignment="center"
-            android:textSize="25sp"
-            android:textColor="@color/purple_700"
+            android:textSize="@dimen/AR_title_textsize"
+            android:textColor="@color/AR_text_title_color"
             android:shadowColor="@color/dark_gray"
             android:shadowDx="3"
             android:shadowDy="3"
             android:shadowRadius="3"
-            android:background="@drawable/border_bottom"
-            android:paddingVertical="5dp"/>
+            android:background="@color/AR_background_title_color"
+            android:drawableEnd="@drawable/icon_notificacion"
+            android:paddingHorizontal="@dimen/AR_title_paddingH"
+            android:paddingVertical="@dimen/AR_title_paddingV"
+            android:drawableTint="@color/AR_text_title_color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,16 +38,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="FECHA"
-                android:textSize="17sp"
+                android:text="@string/AR_fecha_text"
+                android:textAllCaps="true"
+                android:textSize="@dimen/AR_text_view_textsize"
                 android:layout_weight="2"
                 android:textAlignment="textEnd"
-                android:layout_marginHorizontal="10dp"
-                android:textColor="@color/dark_gray"/>
+                android:layout_marginHorizontal="@dimen/AR_text_view_margin"
+                android:textColor="@color/AR_text_labels_color"/>
 
             <EditText
-                android:id="@+id/fechaRecordatorioET"
-                android:hint="DD/MM/AAAA"
+                android:id="@+id/AR_fecha_recordatorio_ET"
+                android:hint="@string/AR_fecha_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="date"
@@ -52,8 +56,8 @@
                 android:clickable="true"
                 android:maxLines="1"
                 android:layout_weight="1"
-                android:layout_marginEnd="10dp"
-                android:textSize="17sp"/>
+                android:layout_marginEnd="@dimen/AR_edit_text_marginend"
+                android:textSize="@dimen/AR_edit_text_textsize"/>
 
         </LinearLayout>
 
@@ -65,25 +69,26 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="HORA"
-                android:textSize="17sp"
+                android:text="@string/AR_hora_text"
+                android:textAllCaps="true"
+                android:textSize="@dimen/AR_text_view_textsize"
                 android:layout_weight="2"
                 android:textAlignment="textEnd"
-                android:layout_marginHorizontal="10dp"
-                android:textColor="@color/dark_gray"/>
+                android:layout_marginHorizontal="@dimen/AR_text_view_margin"
+                android:textColor="@color/AR_text_labels_color"/>
 
             <EditText
-                android:id="@+id/horaRecordatorioET"
-                android:hint="HH:MM"
+                android:id="@+id/AR_hora_recordatorio_ET"
+                android:hint="@string/AR_hora_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"
+                android:inputType="time"
                 android:focusable="false"
                 android:clickable="true"
                 android:maxLines="1"
                 android:layout_weight="1"
-                android:layout_marginEnd="10dp"
-                android:textSize="17sp"/>
+                android:layout_marginEnd="@dimen/AR_edit_text_marginend"
+                android:textSize="@dimen/AR_edit_text_textsize"/>
 
         </LinearLayout>
 
@@ -95,32 +100,35 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="DESCRIPCIÓN"
-                android:textSize="17sp"
+                android:text="@string/AR_descripcion_text"
+                android:textAllCaps="true"
+                android:textSize="@dimen/AR_text_view_textsize"
                 android:layout_weight="2"
                 android:textAlignment="textEnd"
-                android:layout_marginHorizontal="10dp"
-                android:textColor="@color/dark_gray"/>
+                android:layout_marginHorizontal="@dimen/AR_text_view_margin"
+                android:textColor="@color/AR_text_labels_color"/>
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/AR_descripcion_recordatorio_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Descripción del recordatorio"
+                android:hint="@string/AR_descripcion_hint"
                 android:layout_weight="1"
                 android:maxLines="5"
-                android:layout_marginEnd="10dp"
-                android:textSize="17sp"/>
+                android:layout_marginEnd="@dimen/AR_edit_text_marginend"
+                android:textSize="@dimen/AR_edit_text_textsize"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/AR_agregar_recordatorio_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="15dp"
-        android:contentDescription="Agregar Recordatorio"
+        android:layout_margin="@dimen/AR_floating_button_margin"
+        android:contentDescription="@string/AR_title"
         android:src="@drawable/icon_agregar"/>
 
 </android.support.design.widget.CoordinatorLayout>
