@@ -9,5 +9,16 @@
     <dimen name="AR_text_view_textsize">17sp</dimen>
     <dimen name="AR_edit_text_textsize">17sp</dimen>
 
-    <dimen name="MR_floating_button_margin">15sp</dimen>
+    <dimen name="MR_floating_button_margin">15dp</dimen>
+    <dimen name="MR_recycler_view_margintop">5dp</dimen>
+
+    <dimen name="VR_card_radius">10dp</dimen>
+    <dimen name="VR_card_elevation">5dp</dimen>
+    <dimen name="VR_card_margin">8dp</dimen>
+    <dimen name="VR_fecha_paddingtop">5dp</dimen>
+    <dimen name="VR_descripcion_paddinghorizontal">10dp</dimen>
+    <dimen name="VR_descripcion_paddingtop">5dp</dimen>
+    <dimen name="VR_descripcion_paddingbottom">10dp</dimen>
+    <dimen name="VR_fecha_textsize">17sp</dimen>
+    <dimen name="VR_descripcion_textsize">14sp</dimen>
 </resources>

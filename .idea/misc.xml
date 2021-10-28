@@ -7,9 +7,10 @@
         <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/drawable/icon_agregar.xml" value="0.29583333333333334" />
         <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/layout/activity_agregar_recordatorio.xml" value="0.2375" />
         <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/layout/activity_main.xml" value="0.26992753623188404" />
-        <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/layout/activity_mostrar_recordatorios.xml" value="0.27239583333333334" />
+        <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/layout/activity_mostrar_recordatorios.xml" value="0.25" />
         <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/layout/menu_a.xml" value="0.36666666666666664" />
         <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/layout/toolbar.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/layout/vista_recordatorio.xml" value="0.25" />
         <entry key="..\:/Android-Studio-Projects/DamLab3/app/src/main/res/menu/menu.xml" value="0.33" />
       </map>
     </option>

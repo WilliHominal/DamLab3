@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/VR_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/VR_card_radius"
+        app:cardBackgroundColor="@color/VR_background_cardview"
+        app:cardElevation="@dimen/VR_card_elevation"
+        android:layout_margin="@dimen/VR_card_margin">
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/VR_fecha_recordatorio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/AR_fecha_hint"
+                android:textAlignment="center"
+                android:textColor="@color/VR_fecha_textcolor"
+                android:paddingTop="@dimen/VR_fecha_paddingtop"
+                android:textSize="@dimen/VR_fecha_textsize"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/VR_descripcion_recordatorio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/AR_descripcion_hint"
+                android:textColor="@color/VR_descripcion_textcolor"
+                android:paddingHorizontal="@dimen/VR_descripcion_paddinghorizontal"
+                android:paddingTop="@dimen/VR_descripcion_paddingtop"
+                android:paddingBottom="@dimen/VR_descripcion_paddingbottom"
+                android:textSize="@dimen/VR_descripcion_textsize"/>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+    </android.support.design.card.MaterialCardView>
+
+</LinearLayout>

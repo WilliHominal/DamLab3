@@ -13,13 +13,17 @@
     <color name="primary_dark_color">#FF3700B3</color>
     <color name="accent_color">#FFBB86FC</color>
 
+    <color name="toolbar_primary_color">#FF6200EE</color>
+    <color name="toolbar_primary_dark_color">#FF3700B3</color>
+    <color name="toolbar_accent_color">#FFBB86FC</color>
+    <color name="toolbar_text_primary_color">#FF3700B3</color>
+
     <color name="AR_background_primary_color">#f0dff5</color>
     <color name="AR_text_labels_color">#2e2e2e</color>
     <color name="AR_text_title_color">#FF3700B3</color>
     <color name="AR_background_title_color">#FFBB86FC</color>
 
-    <color name="toolbar_primary_color">#FF6200EE</color>
-    <color name="toolbar_primary_dark_color">#FF3700B3</color>
-    <color name="toolbar_accent_color">#FFBB86FC</color>
-    <color name="toolbar_text_primary_color">#FF3700B3</color>
+    <color name="VR_background_cardview">#FF3700B3</color>
+    <color name="VR_fecha_textcolor">#FFFFFFFF</color>
+    <color name="VR_descripcion_textcolor">#FFFFFFFF</color>
 </resources>
