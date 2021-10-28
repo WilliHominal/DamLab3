@@ -8,4 +8,6 @@
     <dimen name="AR_title_textsize">25sp</dimen>
     <dimen name="AR_text_view_textsize">17sp</dimen>
     <dimen name="AR_edit_text_textsize">17sp</dimen>
+
+    <dimen name="MR_floating_button_margin">15sp</dimen>
 </resources>

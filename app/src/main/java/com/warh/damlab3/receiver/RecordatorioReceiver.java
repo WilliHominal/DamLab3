@@ -1,4 +1,4 @@
-package com.warh.damlab3.broadcast;
+package com.warh.damlab3.receiver;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.widget.Toast;
 
 import com.warh.damlab3.R;
 

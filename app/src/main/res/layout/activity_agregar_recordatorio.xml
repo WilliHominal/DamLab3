@@ -13,22 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/AR_title"
-            android:textAlignment="center"
-            android:textSize="@dimen/AR_title_textsize"
-            android:textColor="@color/AR_text_title_color"
-            android:shadowColor="@color/dark_gray"
-            android:shadowDx="3"
-            android:shadowDy="3"
-            android:shadowRadius="3"
-            android:background="@color/AR_background_title_color"
-            android:drawableEnd="@drawable/icon_notificacion"
-            android:paddingHorizontal="@dimen/AR_title_paddingH"
-            android:paddingVertical="@dimen/AR_title_paddingV"
-            android:drawableTint="@color/AR_text_title_color"/>
+        <include layout="@layout/toolbar"></include>
 
         <LinearLayout
             android:layout_width="match_parent"
