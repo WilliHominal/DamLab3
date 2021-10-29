@@ -13,6 +13,11 @@ public interface RecordatorioDataSource {
         void resultado(final boolean exito, final List<RecordatorioModel> recordatorios);
     }
 
+    interface BorrarRecordatoriosCallback {
+        void resultado(final boolean exito);
+    }
+
     void guardarRecordatorio(final RecordatorioModel recordatorio, final GuardarRecordatorioCallback callback);
     void recuperarRecordatorios(final RecuperarRecordatorioCallback callback);
+    void borrarRecordatorios(final BorrarRecordatoriosCallback callback);
 }

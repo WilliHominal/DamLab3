@@ -74,4 +74,11 @@ public class RecordatorioPreferencesDataSource implements RecordatorioDataSource
 
         callback.resultado(true, recordatorios);
     }
+
+    @Override
+    public void borrarRecordatorios(BorrarRecordatoriosCallback callback){
+        sharedPreferences.edit().clear().commit();
+
+        callback.resultado(true);
+    }
 }

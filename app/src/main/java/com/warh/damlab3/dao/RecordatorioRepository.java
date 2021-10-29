@@ -17,4 +17,8 @@ public class RecordatorioRepository {
     public void recuperarRecordatorios(final RecordatorioDataSource.RecuperarRecordatorioCallback callback){
         datasource.recuperarRecordatorios(callback);
     }
+
+    public void borrarRecordatorios(final RecordatorioDataSource.BorrarRecordatoriosCallback callback){
+        datasource.borrarRecordatorios(callback);
+    }
 }

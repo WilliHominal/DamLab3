@@ -1,5 +1,13 @@
 package com.warh.damlab3;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +21,6 @@ import com.warh.damlab3.adapter.RecordatorioAdapter;
 import com.warh.damlab3.dao.RecordatorioPreferencesDataSource;
 import com.warh.damlab3.dao.RecordatorioRepository;
 
-import java.text.SimpleDateFormat;
-
 public class MostrarRecordatoriosActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -22,6 +28,10 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
     RecordatorioAdapter recordatoriosAdapter;
     RecyclerView.LayoutManager recordatoriosLayoutManager;
     RecordatorioRepository repository;
+    FloatingActionButton agregarRecordatorioBtn;
+
+    DrawerLayout drawerLayout;
+    NavigationView drawerNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,43 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
             recordatoriosAdapter = new RecordatorioAdapter(recordatorios);
             recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
         });
+
+        agregarRecordatorioBtn = (FloatingActionButton) findViewById(R.id.MR_agregar_recordatorio_btn);
+        agregarRecordatorioBtn.setOnClickListener(view -> {
+            Intent i1 = new Intent(MostrarRecordatoriosActivity.this, AgregarRecordatorioActivity.class);
+            startActivityForResult(i1, 10);
+        });
+
+        drawerLayout = findViewById(R.id.MR_drawer_layout);
+        drawerNavigationView = findViewById(R.id.MR_navigation_view);
+        drawerNavigationView.setNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()){
+                case R.id.menu_configuracion_opc:
+                    Toast.makeText(this, "Config", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.menu_borrar_recordatorios_opc:
+                    new AlertDialog.Builder(this)
+                            .setIcon(android.R.drawable.ic_delete)
+                            .setTitle("Eliminar recordatorios")
+                            .setMessage("Quieres eliminar todos los recordatorios?")
+                            .setPositiveButton("ACEPTAR", (dialog, i) -> repository.borrarRecordatorios(todoOk -> {
+                                if (todoOk) {
+                                    repository.recuperarRecordatorios((exito, recordatorios) -> {
+                                        recordatoriosAdapter = new RecordatorioAdapter(recordatorios);
+                                        recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
+                                    });
+                                    drawerLayout.closeDrawer(drawerNavigationView);
+                                    Toast.makeText(getApplicationContext(), "Recordatorios borrados.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Error al borrar recordatorios", Toast.LENGTH_SHORT).show();
+                                }
+                            }))
+                            .setNegativeButton("CANCELAR", null)
+                            .show();
+                    break;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -54,13 +101,26 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
-        {
-            case R.id.menu_configuration_opt:
-                Toast.makeText(this, "CONFIG", Toast.LENGTH_SHORT).show();
-                return true;
+        if (item.getItemId() == R.id.menu_configuration_opt) {
+            drawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-            default:return super.onOptionsItemSelected(item);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==10){
+            switch(resultCode){
+                case Activity.RESULT_OK:
+                    repository.recuperarRecordatorios((exito, recordatorios) -> {
+                        recordatoriosAdapter = new RecordatorioAdapter(recordatorios);
+                        recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
+                    });
+                    break;
+            }
         }
     }
 }

@@ -6,17 +6,17 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.warh.damlab3.dao.RecordatorioDataSource;
 import com.warh.damlab3.dao.RecordatorioPreferencesDataSource;
 import com.warh.damlab3.dao.RecordatorioRepository;
 import com.warh.damlab3.receiver.RecordatorioReceiver;
@@ -26,9 +26,7 @@ import com.warh.damlab3.model.RecordatorioModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 public class AgregarRecordatorioActivity extends AppCompatActivity {
@@ -37,8 +35,8 @@ public class AgregarRecordatorioActivity extends AppCompatActivity {
 
     EditText fechaRecordatorioET;
     EditText horaRecordatorioET;
-    android.support.design.widget.TextInputEditText descripcionRecordatorioET;
-    android.support.design.widget.FloatingActionButton agregarRecordatorioBtn;
+    TextInputEditText descripcionRecordatorioET;
+    FloatingActionButton agregarRecordatorioBtn;
     RecordatorioRepository repository;
 
     @Override
@@ -52,10 +50,10 @@ public class AgregarRecordatorioActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.icon_volver);
-        toolbar.setNavigationOnClickListener(view -> Toast.makeText(this, "ATRAS", Toast.LENGTH_SHORT).show());
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) ab.setDisplayHomeAsUpEnabled(true);
 
-        descripcionRecordatorioET = (android.support.design.widget.TextInputEditText) findViewById(R.id.AR_descripcion_recordatorio_ET);
+        descripcionRecordatorioET = (TextInputEditText) findViewById(R.id.AR_descripcion_recordatorio_ET);
 
         fechaRecordatorioET = (EditText) findViewById(R.id.AR_fecha_recordatorio_ET);
         fechaRecordatorioET.setOnClickListener(view -> mostrarDialogDatePicker());
@@ -63,28 +61,18 @@ public class AgregarRecordatorioActivity extends AppCompatActivity {
         horaRecordatorioET = (EditText) findViewById(R.id.AR_hora_recordatorio_ET);
         horaRecordatorioET.setOnClickListener(view -> mostrarDialogTimePicker());
 
-        agregarRecordatorioBtn = (android.support.design.widget.FloatingActionButton) findViewById(R.id.AR_agregar_recordatorio_btn);
+        agregarRecordatorioBtn = (FloatingActionButton) findViewById(R.id.AR_agregar_recordatorio_btn);
         agregarRecordatorioBtn.setOnClickListener(view -> agregarRecordatorio());
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.menu_configuration_opt:
-                Toast.makeText(this, "CONFIG", Toast.LENGTH_SHORT).show();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
                 return true;
-
-            default:return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void mostrarDialogDatePicker() {
@@ -150,6 +138,9 @@ public class AgregarRecordatorioActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error al guardar recordatorio", Toast.LENGTH_SHORT).show();
         });
 
+        Intent i1 = new Intent(AgregarRecordatorioActivity.this, MostrarRecordatoriosActivity.class);
+        setResult(RESULT_OK, i1);
+        finish();
     }
 
     private void crearCanalNotificaciones() {

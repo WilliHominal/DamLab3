@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <app:item android:id="@+id/menu_configuration_opt"
         android:title="Configuracion"
-        android:icon="@drawable/icon_configuracion"
+        android:icon="@drawable/icon_menu"
         android:orderInCategory="1"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 </menu>
