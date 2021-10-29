@@ -10,18 +10,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DamLab3">
         <activity
+            android:name=".ConfiguracionActivity"
+            android:exported="true"
+            android:parentActivityName=".MostrarRecordatoriosActivity">
+        </activity>
+        <activity
             android:name=".MostrarRecordatoriosActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AgregarRecordatorioActivity"
             android:exported="true"
-            android:parentActivityName=".MostrarRecordatoriosActivity">
-        </activity>
+            android:parentActivityName=".MostrarRecordatoriosActivity" />
 
         <receiver
             android:name=".receiver.RecordatorioReceiver"

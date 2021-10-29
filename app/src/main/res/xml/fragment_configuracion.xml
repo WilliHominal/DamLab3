@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:id="@+id/switch_preference"
+        android:key="NOTIFICACIONES"
+        android:title="Notificaciones"
+        android:summary="Mostrar notificaciones"
+        android:defaultValue="true"
+        android:background="@color/AR_background_primary_color"/>
+</PreferenceScreen>

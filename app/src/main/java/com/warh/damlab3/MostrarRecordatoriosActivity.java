@@ -64,7 +64,9 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
         drawerNavigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()){
                 case R.id.menu_configuracion_opc:
-                    Toast.makeText(this, "Config", Toast.LENGTH_SHORT).show();
+                    drawerLayout.closeDrawer(drawerNavigationView);
+                    Intent i1 = new Intent(MostrarRecordatoriosActivity.this, ConfiguracionActivity.class);
+                    startActivity(i1);
                     break;
                 case R.id.menu_borrar_recordatorios_opc:
                     new AlertDialog.Builder(this)

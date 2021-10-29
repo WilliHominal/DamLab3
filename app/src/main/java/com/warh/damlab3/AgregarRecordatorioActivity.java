@@ -6,7 +6,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
@@ -119,16 +121,18 @@ public class AgregarRecordatorioActivity extends AppCompatActivity {
             return;
         }
 
-        Intent intentAux = new Intent(this, RecordatorioReceiver.class);
-        intentAux.setAction("RECORDATORIO");
-        intentAux.putExtra("FECHA", formatter.format(fechaSel));
-        intentAux.putExtra("DESCRIPCION", descripcionRecordatorio);
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("NOTIFICACIONES", true)) {
+            Intent intentAux = new Intent(this, RecordatorioReceiver.class);
+            intentAux.setAction("RECORDATORIO");
+            intentAux.putExtra("FECHA", formatter.format(fechaSel));
+            intentAux.putExtra("DESCRIPCION", descripcionRecordatorio);
 
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 1, intentAux, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 1, intentAux, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        final AlarmManager alarma = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            final AlarmManager alarma = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        alarma.set(AlarmManager.RTC_WAKEUP, fechaSel.getTime(), alarmIntent);
+            alarma.set(AlarmManager.RTC_WAKEUP, fechaSel.getTime(), alarmIntent);
+        }
 
         RecordatorioModel recordatorioTemp = new RecordatorioModel(descripcionRecordatorio, fechaSel);
         repository.guardarRepositorio(recordatorioTemp, exito -> {
