@@ -20,15 +20,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/VR_fecha_recordatorio"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/AR_fecha_hint"
-                android:textAlignment="center"
-                android:textColor="@color/VR_fecha_textcolor"
-                android:paddingTop="@dimen/VR_fecha_paddingtop"
-                android:textSize="@dimen/VR_fecha_textsize"/>
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/VR_fecha_recordatorio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/AR_fecha_hint"
+                    android:textAlignment="center"
+                    android:textColor="@color/VR_fecha_textcolor"
+                    android:paddingTop="@dimen/VR_fecha_paddingtop"
+                    android:textSize="@dimen/VR_fecha_textsize"
+                    android:layout_weight="20"/>
+
+                <Button
+                    android:id="@+id/VR_boton_borrar"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="1dp"
+                    android:paddingTop="@dimen/VR_fecha_paddingtop"
+                    android:textSize="@dimen/VR_fecha_textsize"
+                    android:layout_weight="1"
+                    app:icon="@android:drawable/ic_delete" />
+
+            </LinearLayout>
+
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/VR_descripcion_recordatorio"

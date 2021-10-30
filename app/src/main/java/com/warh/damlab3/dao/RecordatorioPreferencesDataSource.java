@@ -1,9 +1,13 @@
 package com.warh.damlab3.dao;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.warh.damlab3.MostrarRecordatoriosActivity;
 import com.warh.damlab3.model.RecordatorioModel;
 
 import java.text.ParseException;
@@ -11,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class RecordatorioPreferencesDataSource implements RecordatorioDataSource {
 
@@ -78,6 +83,27 @@ public class RecordatorioPreferencesDataSource implements RecordatorioDataSource
     @Override
     public void borrarRecordatorios(BorrarRecordatoriosCallback callback){
         sharedPreferences.edit().clear().commit();
+
+        callback.resultado(true);
+    }
+
+    @Override
+    public void borrarRecordatorio(int idRecordatorio, BorrarRecordatorioCallback callback){
+        int totalRecordatorios = sharedPreferences.getInt("CANTIDAD_RECORDATORIOS", 0);
+
+        for (int i=idRecordatorio; i<totalRecordatorios-1; i++){
+            String recordatorioNombre = "RECORDATORIO_" + i;
+            String recordatorioNombreSiguiente = "RECORDATORIO_" + (i+1);
+            String recordatorioDatosSiguiente = sharedPreferences.getString(recordatorioNombreSiguiente, "");
+            Log.d("DEBUG_PERSONAL", recordatorioNombre + "/" + recordatorioNombreSiguiente + "/" + recordatorioDatosSiguiente);
+            sharedPreferences.edit().putString(recordatorioNombre, recordatorioDatosSiguiente).commit();
+        }
+
+        String ultimoRecordatorio = "RECORDATORIO_" + (sharedPreferences.getInt("CANTIDAD_RECORDATORIOS", 0)-1);
+        sharedPreferences.edit()
+                .remove(ultimoRecordatorio)
+                .putInt("CANTIDAD_RECORDATORIOS", totalRecordatorios-1)
+                .commit();
 
         callback.resultado(true);
     }

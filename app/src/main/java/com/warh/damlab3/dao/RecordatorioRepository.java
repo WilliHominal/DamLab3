@@ -21,4 +21,8 @@ public class RecordatorioRepository {
     public void borrarRecordatorios(final RecordatorioDataSource.BorrarRecordatoriosCallback callback){
         datasource.borrarRecordatorios(callback);
     }
+
+    public void borrarRecordatorio(final int idRecordatorio, final RecordatorioDataSource.BorrarRecordatorioCallback callback){
+        datasource.borrarRecordatorio(idRecordatorio, callback);
+    }
 }

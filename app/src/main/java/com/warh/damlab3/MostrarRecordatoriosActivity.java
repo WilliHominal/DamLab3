@@ -2,6 +2,8 @@ package com.warh.damlab3;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,11 +17,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.warh.damlab3.adapter.RecordatorioAdapter;
 import com.warh.damlab3.dao.RecordatorioPreferencesDataSource;
 import com.warh.damlab3.dao.RecordatorioRepository;
+import com.warh.damlab3.model.RecordatorioModel;
+
+import java.util.List;
 
 public class MostrarRecordatoriosActivity extends AppCompatActivity {
 
@@ -42,6 +48,8 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.MR_toolbar_titulo);
         setSupportActionBar(toolbar);
 
+        //PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+
         recordatoriosRecyclerView = (RecyclerView) findViewById(R.id.MR_recordatoriosRecycler);
         recordatoriosRecyclerView.setHasFixedSize(true);
         recordatoriosLayoutManager = new LinearLayoutManager(this);
@@ -49,8 +57,7 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
 
         repository = new RecordatorioRepository(new RecordatorioPreferencesDataSource(this));
         repository.recuperarRecordatorios((exito, recordatorios) -> {
-            recordatoriosAdapter = new RecordatorioAdapter(recordatorios);
-            recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
+            recargarDatosAdapter(recordatorios);
         });
 
         agregarRecordatorioBtn = (FloatingActionButton) findViewById(R.id.MR_agregar_recordatorio_btn);
@@ -76,8 +83,7 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
                             .setPositiveButton("ACEPTAR", (dialog, i) -> repository.borrarRecordatorios(todoOk -> {
                                 if (todoOk) {
                                     repository.recuperarRecordatorios((exito, recordatorios) -> {
-                                        recordatoriosAdapter = new RecordatorioAdapter(recordatorios);
-                                        recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
+                                        recargarDatosAdapter(recordatorios);
                                     });
                                     drawerLayout.closeDrawer(drawerNavigationView);
                                     Toast.makeText(getApplicationContext(), "Recordatorios borrados.", Toast.LENGTH_SHORT).show();
@@ -91,6 +97,14 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        recordatoriosAdapter.setOnItemClickListener((itemView, position) -> {
+            repository.borrarRecordatorio(position, exito -> {
+                Toast.makeText(this, "Recordatorio borrado", Toast.LENGTH_SHORT).show();
+                repository.recuperarRecordatorios((exito1, recordatorios) -> {
+                    recargarDatosAdapter(recordatorios);
+                });
+            });});
     }
 
     @Override
@@ -118,11 +132,15 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
             switch(resultCode){
                 case Activity.RESULT_OK:
                     repository.recuperarRecordatorios((exito, recordatorios) -> {
-                        recordatoriosAdapter = new RecordatorioAdapter(recordatorios);
-                        recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
+                        recargarDatosAdapter(recordatorios);
                     });
                     break;
             }
         }
+    }
+
+    private void recargarDatosAdapter(List<RecordatorioModel> recordatorios){
+        recordatoriosAdapter = new RecordatorioAdapter(recordatorios);
+        recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
     }
 }
