@@ -19,8 +19,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.warh.damlab3.dao.RecordatorioDataSource;
 import com.warh.damlab3.dao.RecordatorioPreferencesDataSource;
 import com.warh.damlab3.dao.RecordatorioRepository;
+import com.warh.damlab3.dao.RecordatorioRoomDataSource;
 import com.warh.damlab3.receiver.RecordatorioReceiver;
 import com.warh.damlab3.fragment.DatePickerFragment;
 import com.warh.damlab3.fragment.TimePickerFragment;
@@ -39,7 +41,9 @@ public class AgregarRecordatorioActivity extends AppCompatActivity {
     EditText horaRecordatorioET;
     TextInputEditText descripcionRecordatorioET;
     FloatingActionButton agregarRecordatorioBtn;
+
     RecordatorioRepository repository;
+    RecordatorioDataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,14 @@ public class AgregarRecordatorioActivity extends AppCompatActivity {
 
         this.crearCanalNotificaciones();
 
-        repository = new RecordatorioRepository(new RecordatorioPreferencesDataSource(this));
+        dataSource = null;
+        String prefDataSource = PreferenceManager.getDefaultSharedPreferences(this).getString("datasource", "0");
+        switch (prefDataSource){
+            case "0": dataSource = new RecordatorioPreferencesDataSource(this); break;
+            case "1": dataSource = new RecordatorioRoomDataSource(this); break;
+        }
+
+        repository = new RecordatorioRepository(dataSource);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -25,6 +25,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/VR_id_recordatorio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/AR_id_hint"
+                    android:textAlignment="center"
+                    android:textColor="@color/VR_id_textcolor"
+                    android:paddingTop="@dimen/VR_fecha_paddingtop"
+                    android:textSize="@dimen/VR_fecha_textsize"
+                    android:layout_weight="2"/>
+
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/VR_fecha_recordatorio"
                     android:layout_width="wrap_content"

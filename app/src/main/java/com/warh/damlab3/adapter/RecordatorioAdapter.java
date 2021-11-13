@@ -32,6 +32,7 @@ public class RecordatorioAdapter extends RecyclerView.Adapter<RecordatorioAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView idInput;
         TextView fechaInput;
         TextView descripcionInput;
         Button borrarBtn;
@@ -40,6 +41,7 @@ public class RecordatorioAdapter extends RecyclerView.Adapter<RecordatorioAdapte
         public ViewHolder(View vistaRecordatorio){
             super(vistaRecordatorio);
             view = vistaRecordatorio;
+            idInput = vistaRecordatorio.findViewById(R.id.VR_id_recordatorio);
             fechaInput = vistaRecordatorio.findViewById(R.id.VR_fecha_recordatorio);
             descripcionInput = vistaRecordatorio.findViewById(R.id.VR_descripcion_recordatorio);
             borrarBtn = (Button) vistaRecordatorio.findViewById(R.id.VR_boton_borrar);
@@ -67,6 +69,10 @@ public class RecordatorioAdapter extends RecyclerView.Adapter<RecordatorioAdapte
         }
     }
 
+    public int getRecordatorioId(int position) {
+        return recordatorioDataSet.get(position).getId();
+    }
+
     public RecordatorioAdapter(List<RecordatorioModel> dataSet){
         recordatorioDataSet = dataSet;
     }
@@ -82,6 +88,7 @@ public class RecordatorioAdapter extends RecyclerView.Adapter<RecordatorioAdapte
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy kk:mm");
         RecordatorioModel recordatorioTemp = recordatorioDataSet.get(position);
 
+        viewHolder.idInput.setText("#" + Integer.toString(recordatorioTemp.getId()));
         viewHolder.fechaInput.setText(formatter.format(recordatorioTemp.getFecha()));
         viewHolder.descripcionInput.setText(recordatorioTemp.getTexto());
     }

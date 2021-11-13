@@ -7,4 +7,13 @@
         android:summary="Mostrar notificaciones"
         android:defaultValue="true"
         android:background="@color/AR_background_primary_color"/>
+    <ListPreference
+        android:id="@+id/datasource_preference"
+        android:defaultValue="0"
+        android:entries="@array/pref_datasource_titles"
+        android:entryValues="@array/pref_datasource_values"
+        android:key="datasource"
+        android:title="@string/pref_datasource_title"
+        android:positiveButtonText="@string/pref_datasource_ok_button"
+        android:summary="%s"/>
 </PreferenceScreen>

@@ -30,18 +30,19 @@ public class RecordatorioPreferencesDataSource implements RecordatorioDataSource
         SharedPreferences.Editor editorSP = sharedPreferences.edit();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy kk:mm");
 
-        //OBTENGO CANTIDAD DE RECORDATORIOS
-        int cantRecordatorios = sharedPreferences.getInt("CANTIDAD_RECORDATORIOS", 0);
+        //OBTENGO EL PROXIMO ID
+        int siguienteId = sharedPreferences.getInt("SIGUIENTE_ID", 0);
 
-        //CREO CLAVE nombreRecordatorio PARA NUEVA SharedPreference CON FORMATO RECORDATORIO_XX
-        String nombreRecordatorio = "RECORDATORIO_" + cantRecordatorios;
+        //DATOS DEL RECORDATORIO CON FORMATO id*****fecha*****descripcion+*+*+
+        String datosRecordatorio = siguienteId + "*****" + formatter.format(recordatorio.getFecha()) + "*****" + recordatorio.getTexto() + "+*+*+";
 
-        //GUARDO DATOS DEL RECORDATORIO CON FORMATO fecha*descripcion EN LA CLAVE nombreRecordatorio
-        String datosRecordatorio = formatter.format(recordatorio.getFecha()) + "*****" + recordatorio.getTexto();
+        //OBTENGO DATOS RECORDATORIOS GUARDADOS Y LE AGREGO EL NUEVO
+        String recordatorios = sharedPreferences.getString("RECORDATORIOS", "");
+        recordatorios += datosRecordatorio;
 
         //ACTUALIZO LAS SharedPreferences
-        editorSP.putString(nombreRecordatorio, datosRecordatorio);
-        editorSP.putInt("CANTIDAD_RECORDATORIOS", cantRecordatorios+1);
+        editorSP.putString("RECORDATORIOS", recordatorios);
+        editorSP.putInt("SIGUIENTE_ID", siguienteId+1);
 
         //COMMIT DE LOS CAMBIOS
         editorSP.commit();
@@ -53,27 +54,29 @@ public class RecordatorioPreferencesDataSource implements RecordatorioDataSource
     public void recuperarRecordatorios(RecuperarRecordatorioCallback callback) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy kk:mm");
 
-        //OBTENGO CANTIDAD DE RECORDATORIOS
-        int cantidadRecordatorios = sharedPreferences.getInt("CANTIDAD_RECORDATORIOS", 0);
         List<RecordatorioModel> recordatorios = new ArrayList<>();
 
-        for (int i=0; i<cantidadRecordatorios; i++){
-            //OBTENGO DATOS DEL RECORDATORIO i DESDE SharedPreference
-            String numeroRecordatorio = "RECORDATORIO_" + i;
-            String datosRecordatorio = sharedPreferences.getString(numeroRecordatorio, "");
+        String recordatoriosString = sharedPreferences.getString("RECORDATORIOS", null);
 
-            //DIVIDO EL DATO OBTENIDO DE SharedPreference EN fecha Y descripcion
-            String datosRecordatorioAux[] = datosRecordatorio.split("\\*\\*\\*\\*\\*");
+        if (recordatoriosString == null || recordatoriosString == "") {
+            callback.resultado(true, recordatorios);
+            return;
+        }
+
+        String[] recordatoriosStringArray = recordatoriosString.split("\\+\\*\\+\\*\\+");
+
+        for (String recordatorio : recordatoriosStringArray){
+            String[] recordatorioDatos = recordatorio.split("\\*\\*\\*\\*\\*");
+            int idRecordatorioTemp = Integer.parseInt(recordatorioDatos[0]);
             Date fechaRecordatorioTemp = null;
             try {
-                fechaRecordatorioTemp = formatter.parse(datosRecordatorioAux[0]);
+                fechaRecordatorioTemp = formatter.parse(recordatorioDatos[1]);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            String descripcionRecordatorioTemp = datosRecordatorioAux[1];
+            String descripcionRecordatorioTemp = recordatorioDatos[2];
 
-            //CREO EL RECORDATORIO TEMPORAL Y LO AGREGO A LA LISTA
-            RecordatorioModel recordatorioTemp = new RecordatorioModel(descripcionRecordatorioTemp, fechaRecordatorioTemp);
+            RecordatorioModel recordatorioTemp = new RecordatorioModel(idRecordatorioTemp, descripcionRecordatorioTemp, fechaRecordatorioTemp);
             recordatorios.add(recordatorioTemp);
         }
 
@@ -82,28 +85,39 @@ public class RecordatorioPreferencesDataSource implements RecordatorioDataSource
 
     @Override
     public void borrarRecordatorios(BorrarRecordatoriosCallback callback){
-        sharedPreferences.edit().clear().commit();
+        boolean spNotificaciones = sharedPreferences.getBoolean("NOTIFICACIONES", true);
+        String spDataSource = sharedPreferences.getString("datasource", "0");
+
+        sharedPreferences.edit()
+                .remove("RECORDATORIOS")
+                .remove("SIGUIENTE_ID")
+                .commit();
 
         callback.resultado(true);
     }
 
     @Override
     public void borrarRecordatorio(int idRecordatorio, BorrarRecordatorioCallback callback){
-        int totalRecordatorios = sharedPreferences.getInt("CANTIDAD_RECORDATORIOS", 0);
 
-        for (int i=idRecordatorio; i<totalRecordatorios-1; i++){
-            String recordatorioNombre = "RECORDATORIO_" + i;
-            String recordatorioNombreSiguiente = "RECORDATORIO_" + (i+1);
-            String recordatorioDatosSiguiente = sharedPreferences.getString(recordatorioNombreSiguiente, "");
-            Log.d("DEBUG_PERSONAL", recordatorioNombre + "/" + recordatorioNombreSiguiente + "/" + recordatorioDatosSiguiente);
-            sharedPreferences.edit().putString(recordatorioNombre, recordatorioDatosSiguiente).commit();
+        //GET RECORDATORIOS GUARDADOS
+        String recordatoriosString = sharedPreferences.getString("RECORDATORIOS", "");
+
+        if (recordatoriosString == null || recordatoriosString == "") {
+            callback.resultado(true);
+            return;
         }
 
-        String ultimoRecordatorio = "RECORDATORIO_" + (sharedPreferences.getInt("CANTIDAD_RECORDATORIOS", 0)-1);
-        sharedPreferences.edit()
-                .remove(ultimoRecordatorio)
-                .putInt("CANTIDAD_RECORDATORIOS", totalRecordatorios-1)
-                .commit();
+        String[] recordatoriosStringArray = recordatoriosString.split("\\+\\*\\+\\*\\+");
+
+        String recordatoriosActualizados = "";
+
+        for (String recordatorio : recordatoriosStringArray){
+            String[] datosRecordatorio = recordatorio.split("\\*\\*\\*\\*\\*");
+            if (idRecordatorio != Integer.parseInt(datosRecordatorio[0])){
+                recordatoriosActualizados += recordatorio + "+*+*+";
+            }
+        }
+        sharedPreferences.edit().putString("RECORDATORIOS", recordatoriosActualizados).commit();
 
         callback.resultado(true);
     }

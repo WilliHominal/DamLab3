@@ -8,10 +8,27 @@
     <string name="AR_hora_hint">HH:MM</string>
     <string name="AR_descripcion_text">Descripción</string>
     <string name="AR_descripcion_hint">Descripción del recordatorio</string>
+    <string name="AR_id_hint">#1</string>
     <string name="channel_id">999</string>
     <string name="channel_name">CANAL1</string>
     <string name="channel_description">MI CANAL 1</string>
 
     <string name="MR_boton_agregar_recordatorio">Agregar Recordatorio</string>
     <string name="MR_toolbar_titulo">Recordatorios</string>
+
+    <string name="pref_datasource_title">Tipo Datasource</string>
+    <string name="pref_datasource_ok_button">Aceptar</string>
+
+    <string-array name="pref_datasource_titles">
+        <item>SHARED PREFERENCES</item>
+        <item>ROOM DATABASE</item>
+        <item>API RETROFIT</item>
+    </string-array>
+
+    <string-array name="pref_datasource_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

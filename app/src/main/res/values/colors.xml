@@ -26,6 +26,7 @@
     <color name="VR_background_cardview">#FF3700B3</color>
     <color name="VR_fecha_textcolor">#FFFFFFFF</color>
     <color name="VR_descripcion_textcolor">#FFFFFFFF</color>
+    <color name="VR_id_textcolor">#757474</color>
 
     <color name="D_background_header">#eaa3ff</color>
 </resources>
