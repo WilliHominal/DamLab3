@@ -1,16 +1,17 @@
 package com.warh.damlab3;
 
 import android.content.Intent;
-import android.preference.ListPreference;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Toast;
 
 public class ConfiguracionActivity extends AppCompatActivity {
 
     Toolbar toolbar;
+    MaterialButton borrarDatosBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,14 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_configuracion_container, new ConfiguracionPreferencesFragment()).commit();
 
-
+        borrarDatosBtn = (MaterialButton) findViewById(R.id.C_borrar_datos_btn);
+        borrarDatosBtn.setOnClickListener((view)->{
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+            sharedPreferences.edit()
+                    .remove("usuario_sysacad")
+                    .remove("contrasena_sysacad")
+                    .apply();
+            getFragmentManager().beginTransaction().replace(R.id.fragment_configuracion_container, new ConfiguracionPreferencesFragment()).commit();
+        });
     }
 }

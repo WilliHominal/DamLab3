@@ -21,6 +21,16 @@
 
             <include layout="@layout/toolbar"></include>
 
+            <ProgressBar
+                android:id="@+id/MR_indicador_carga"
+                style="?android:attr/progressBarStyle"
+                android:minHeight="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="visible"
+                android:layout_marginTop="50dp"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/MR_recordatoriosRecycler"
                 android:layout_width="match_parent"

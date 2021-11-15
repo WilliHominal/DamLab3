@@ -2,15 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/AR_background_primary_color">
 
     <include layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/fragment_configuracion_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/AR_background_primary_color"
-        />
+        android:layout_height="wrap_content"
+        android:background="@color/AR_background_primary_color" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aclaración: Al modificar los datos de Sysacad se requiere un reinicio de la aplicación para funcionar correctamente."
+        android:textSize="15sp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/C_borrar_datos_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BORRAR DATOS SYSACAD"
+        android:textSize="17sp"
+        android:paddingVertical="10dp"/>
 
 </LinearLayout>

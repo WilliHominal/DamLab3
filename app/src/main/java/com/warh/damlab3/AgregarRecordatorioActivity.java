@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.warh.damlab3.dao.RecordatorioDataSource;
 import com.warh.damlab3.dao.RecordatorioPreferencesDataSource;
 import com.warh.damlab3.dao.RecordatorioRepository;
+import com.warh.damlab3.dao.RecordatorioRetrofitDataSource;
 import com.warh.damlab3.dao.RecordatorioRoomDataSource;
 import com.warh.damlab3.receiver.RecordatorioReceiver;
 import com.warh.damlab3.fragment.DatePickerFragment;
@@ -57,6 +58,7 @@ public class AgregarRecordatorioActivity extends AppCompatActivity {
         switch (prefDataSource){
             case "0": dataSource = new RecordatorioPreferencesDataSource(this); break;
             case "1": dataSource = new RecordatorioRoomDataSource(this); break;
+            case "2": dataSource = new RecordatorioRetrofitDataSource(this); break;
         }
 
         repository = new RecordatorioRepository(dataSource);

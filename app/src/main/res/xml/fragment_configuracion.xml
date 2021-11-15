@@ -16,4 +16,24 @@
         android:title="@string/pref_datasource_title"
         android:positiveButtonText="@string/pref_datasource_ok_button"
         android:summary="%s"/>
+    <EditTextPreference
+        android:id="@+id/usuario_sysacad_preference"
+        android:key="usuario_sysacad"
+        android:title="Usuario Sysacad"
+        android:summary=""
+        android:inputType="number"
+        android:dialogTitle="Usuario Sysacad"
+        android:negativeButtonText=""
+        android:positiveButtonText="GUARDAR"/>
+    <EditTextPreference
+        android:id="@+id/contrasena_sysacad_preference"
+        android:key="contrasena_sysacad"
+        android:title="Contraseña Sysacad"
+        android:summary=""
+        android:inputType="textPassword"
+        android:dialogTitle="Contraseña Sysacad"
+        android:negativeButtonText=""
+        android:positiveButtonText="GUARDAR" />
+
+
 </PreferenceScreen>

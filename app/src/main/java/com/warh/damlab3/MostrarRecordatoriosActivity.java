@@ -3,6 +3,9 @@ package com.warh.damlab3;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,15 +22,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.warh.damlab3.adapter.RecordatorioAdapter;
 import com.warh.damlab3.dao.RecordatorioDataSource;
 import com.warh.damlab3.dao.RecordatorioPreferencesDataSource;
 import com.warh.damlab3.dao.RecordatorioRepository;
+import com.warh.damlab3.dao.RecordatorioRetrofitDataSource;
 import com.warh.damlab3.dao.RecordatorioRoomDataSource;
 import com.warh.damlab3.model.RecordatorioModel;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -46,6 +53,10 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
     RecordatorioDataSource dataSource;
     RecordatorioRoomDataSource roomDataSource;
     RecordatorioPreferencesDataSource prefDataSource;
+    RecordatorioDataSource apiDataSource;
+
+    ProgressBar barraCarga;
+    Handler miHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +67,40 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.MR_toolbar_titulo);
         setSupportActionBar(toolbar);
 
-        //PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+        miHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message inputMessage) {
+                switch (inputMessage.what) {
+                    case 0:
+                        Toast.makeText(getApplicationContext(), "Recordatorios borrados.", Toast.LENGTH_SHORT).show();
+                        barraCarga.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        recordatoriosRecyclerView.setVisibility(View.VISIBLE);
+                        barraCarga.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        Toast.makeText(getApplicationContext(), "Recordatorio #" + inputMessage.arg1 + " borrado", Toast.LENGTH_SHORT).show();
+                        repository.recuperarRecordatorios((exito1, recos) -> {
+                            recordatoriosAdapter = new RecordatorioAdapter(recos);
+                            recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
+                            miHandler.sendEmptyMessage(1);
+                        });
+                        break;
+                    case 3:
+                        recargarDatosAdapter((List<RecordatorioModel>) inputMessage.obj);
+                        cargarListenerAdapter();
+                        break;
+                    case 4:
+                        recargarDatosAdapter((List<RecordatorioModel>) inputMessage.obj);
+                        drawerLayout.closeDrawer(drawerNavigationView);
+                        break;
+                    case 5:
+                        recargarDatosAdapter((List<RecordatorioModel>) inputMessage.obj);
+                        break;
+                }
+            }
+        };
 
         recordatoriosRecyclerView = (RecyclerView) findViewById(R.id.MR_recordatoriosRecycler);
         recordatoriosRecyclerView.setHasFixedSize(true);
@@ -66,9 +110,23 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
         initDataSources();
         actualizarDataSource();
 
-        repository.recuperarRecordatorios((exito, recordatorios) -> {
-            recargarDatosAdapter(recordatorios);
+        barraCarga = findViewById(R.id.MR_indicador_carga);
+
+        Thread thread = new Thread(() -> {
+            try  {
+                Message mensaje = new Message();
+                mensaje.what = 3;
+                repository.recuperarRecordatorios((exito, recordatorios) -> {
+                    mensaje.obj = recordatorios;
+                    miHandler.sendMessage(mensaje);
+                    miHandler.sendEmptyMessage(1);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
+
+        thread.start();
 
         agregarRecordatorioBtn = (FloatingActionButton) findViewById(R.id.MR_agregar_recordatorio_btn);
         agregarRecordatorioBtn.setOnClickListener(view -> {
@@ -76,9 +134,11 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
             startActivityForResult(i1, 10);
         });
 
+
         drawerLayout = findViewById(R.id.MR_drawer_layout);
         drawerNavigationView = findViewById(R.id.MR_navigation_view);
         drawerNavigationView.setNavigationItemSelectedListener(menuItem -> {
+
             switch (menuItem.getItemId()){
                 case R.id.menu_configuracion_opc:
                     drawerLayout.closeDrawer(drawerNavigationView);
@@ -90,17 +150,22 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
                             .setIcon(android.R.drawable.ic_delete)
                             .setTitle("Eliminar recordatorios")
                             .setMessage("Quieres eliminar todos los recordatorios?")
-                            .setPositiveButton("ACEPTAR", (dialog, i) -> repository.borrarRecordatorios(todoOk -> {
-                                if (todoOk) {
-                                    repository.recuperarRecordatorios((exito, recordatorios) -> {
-                                        recargarDatosAdapter(recordatorios);
-                                    });
-                                    drawerLayout.closeDrawer(drawerNavigationView);
-                                    Toast.makeText(getApplicationContext(), "Recordatorios borrados.", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Error al borrar recordatorios", Toast.LENGTH_SHORT).show();
-                                }
-                            }))
+                            .setPositiveButton("ACEPTAR", (dialog, i) -> {
+                                barraCarga.setVisibility(View.VISIBLE);
+                                Message mensaje = new Message();
+                                mensaje.what = 4;
+                                Thread th1 = new Thread(() -> {
+                                    try  {
+                                        repository.borrarRecordatorios(exito -> {});
+                                        mensaje.obj = new ArrayList<>();
+                                        miHandler.sendMessage(mensaje);
+                                        miHandler.sendEmptyMessage(0);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+                                th1.start();
+                            })
                             .setNegativeButton("CANCELAR", null)
                             .show();
                     break;
@@ -108,18 +173,6 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
             return false;
         });
 
-        //TODO AGREGAR API DATA SOURCE
-
-        recordatoriosAdapter.setOnItemClickListener((itemView, position) -> {
-            int idRecordatorioTemp = recordatoriosAdapter.getRecordatorioId(position);
-            repository.borrarRecordatorio(idRecordatorioTemp, exito -> {
-                Toast.makeText(this, "Recordatorio #" + idRecordatorioTemp + " borrado", Toast.LENGTH_SHORT).show();
-                repository.recuperarRecordatorios((exito1, recos) -> {
-                    recordatoriosAdapter = new RecordatorioAdapter(recos);
-                    recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
-                });
-            });
-        });
     }
 
     @Override
@@ -145,9 +198,24 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
         switch (requestCode){
             case 10:
                 if (resultCode == Activity.RESULT_OK){
-                    repository.recuperarRecordatorios((exito, recordatorios) -> {
-                        recargarDatosAdapter(recordatorios);
+                    recordatoriosRecyclerView.setVisibility(View.GONE);
+                    barraCarga.setVisibility(View.VISIBLE);
+                    Message mensaje = new Message();
+                    mensaje.what = 5;
+                    Thread t = new Thread(() -> {
+                        try  {
+                            Thread.sleep(1000);
+                            repository.recuperarRecordatorios((exito, recordatorios) -> {
+                                mensaje.obj = recordatorios;
+                                miHandler.sendMessage(mensaje);
+                                miHandler.sendEmptyMessage(1);
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     });
+                    t.start();
+
                 }
                 break;
             case 20:
@@ -164,6 +232,7 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
     private void initDataSources(){
         roomDataSource = new RecordatorioRoomDataSource(this);
         prefDataSource = new RecordatorioPreferencesDataSource(this);
+        apiDataSource = new RecordatorioRetrofitDataSource(this);
     }
 
     private void actualizarDataSource(){
@@ -171,6 +240,7 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
         switch (tipoDataSource){
             case "0": dataSource = prefDataSource; break;
             case "1": dataSource = roomDataSource; break;
+            case "2": dataSource = apiDataSource; break;
         }
         repository = new RecordatorioRepository(dataSource);
     }
@@ -178,7 +248,26 @@ public class MostrarRecordatoriosActivity extends AppCompatActivity {
     private void recargarDatosAdapter(List<RecordatorioModel> recordatorios){
         recordatoriosAdapter = new RecordatorioAdapter(recordatorios);
         recordatoriosRecyclerView.setAdapter(recordatoriosAdapter);
+    }
 
-
+    public void cargarListenerAdapter(){
+        recordatoriosAdapter.setOnItemClickListener((itemView, position) -> {
+            recordatoriosRecyclerView.setVisibility(View.GONE);
+            barraCarga.setVisibility(View.VISIBLE);
+            int idRecordatorioTemp = recordatoriosAdapter.getRecordatorioId(position);
+            Thread t = new Thread(() -> {
+                try  {
+                    Message mensaje = new Message();
+                    mensaje.what = 2;
+                    repository.borrarRecordatorio(idRecordatorioTemp, exito -> {
+                        mensaje.arg1 = idRecordatorioTemp;
+                        miHandler.sendMessage(mensaje);
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            t.start();
+        });
     }
 }

@@ -95,6 +95,7 @@ public class RecordatorioAdapter extends RecyclerView.Adapter<RecordatorioAdapte
 
     @Override
     public int getItemCount() {
+        if (recordatorioDataSet == null) return 0;
         return recordatorioDataSet.size();
     }
 }
