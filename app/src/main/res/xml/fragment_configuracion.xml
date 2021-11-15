@@ -19,21 +19,21 @@
     <EditTextPreference
         android:id="@+id/usuario_sysacad_preference"
         android:key="usuario_sysacad"
-        android:title="Usuario Sysacad"
+        android:title="@string/pref_usuario_sysacad_title"
         android:summary=""
         android:inputType="number"
-        android:dialogTitle="Usuario Sysacad"
+        android:dialogTitle="@string/pref_usuario_sysacad_title"
         android:negativeButtonText=""
-        android:positiveButtonText="GUARDAR"/>
+        android:positiveButtonText="@string/pref_guardar_dialog_button"/>
     <EditTextPreference
         android:id="@+id/contrasena_sysacad_preference"
         android:key="contrasena_sysacad"
-        android:title="Contraseña Sysacad"
+        android:title="@string/pref_contrasena_sysacad_title"
         android:summary=""
         android:inputType="textPassword"
-        android:dialogTitle="Contraseña Sysacad"
+        android:dialogTitle="@string/pref_contrasena_sysacad_title"
         android:negativeButtonText=""
-        android:positiveButtonText="GUARDAR" />
+        android:positiveButtonText="@string/pref_guardar_dialog_button" />
 
 
 </PreferenceScreen>

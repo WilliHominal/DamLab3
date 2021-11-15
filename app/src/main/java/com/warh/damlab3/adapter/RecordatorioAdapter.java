@@ -1,18 +1,13 @@
 package com.warh.damlab3.adapter;
 
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.warh.damlab3.R;
-import com.warh.damlab3.dao.RecordatorioDataSource;
-import com.warh.damlab3.dao.RecordatorioPreferencesDataSource;
-import com.warh.damlab3.dao.RecordatorioRepository;
 import com.warh.damlab3.model.RecordatorioModel;
 
 import java.text.SimpleDateFormat;
@@ -45,12 +40,9 @@ public class RecordatorioAdapter extends RecyclerView.Adapter<RecordatorioAdapte
             fechaInput = vistaRecordatorio.findViewById(R.id.VR_fecha_recordatorio);
             descripcionInput = vistaRecordatorio.findViewById(R.id.VR_descripcion_recordatorio);
             borrarBtn = (Button) vistaRecordatorio.findViewById(R.id.VR_boton_borrar);
-            borrarBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        listener.onItemClick(itemView, getLayoutPosition());
-                    }
+            borrarBtn.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(itemView, getLayoutPosition());
                 }
             });
 
@@ -90,7 +82,7 @@ public class RecordatorioAdapter extends RecyclerView.Adapter<RecordatorioAdapte
 
         viewHolder.idInput.setText("#" + Integer.toString(recordatorioTemp.getId()));
         viewHolder.fechaInput.setText(formatter.format(recordatorioTemp.getFecha()));
-        viewHolder.descripcionInput.setText(recordatorioTemp.getTexto());
+        viewHolder.descripcionInput.setText(recordatorioTemp.getMensaje());
     }
 
     @Override

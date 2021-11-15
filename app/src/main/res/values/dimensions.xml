@@ -21,4 +21,10 @@
     <dimen name="VR_descripcion_paddingbottom">10dp</dimen>
     <dimen name="VR_fecha_textsize">17sp</dimen>
     <dimen name="VR_descripcion_textsize">14sp</dimen>
+
+    <dimen name="C_aclaracion_textsize">15sp</dimen>
+    <dimen name="C_aclaracion_marginhorizontal">10dp</dimen>
+    <dimen name="C_aclaracion_marginvertical">5dp</dimen>
+    <dimen name="C_boton_borrar_datos_textsize">17sp</dimen>
+    <dimen name="C_boton_borrar_datos_paddingvertical">10dp</dimen>
 </resources>

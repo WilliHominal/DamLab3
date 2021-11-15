@@ -18,6 +18,12 @@
 
     <string name="pref_datasource_title">Tipo Datasource</string>
     <string name="pref_datasource_ok_button">Aceptar</string>
+    <string name="pref_usuario_sysacad_title">Usuario Sysacad</string>
+    <string name="pref_contrasena_sysacad_title">Contraseña Sysacad</string>
+    <string name="pref_guardar_dialog_button">GUARDAR</string>
+
+    <string name="C_aclaracion">Aclaración: Al modificar los datos de Sysacad se requiere un reinicio de la aplicación para funcionar correctamente.</string>
+    <string name="C_boton_borrar_datos">BORRAR DATOS SYSACAD</string>
 
     <string-array name="pref_datasource_titles">
         <item>SHARED PREFERENCES</item>

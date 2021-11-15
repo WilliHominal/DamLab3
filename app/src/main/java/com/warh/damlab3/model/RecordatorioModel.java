@@ -17,31 +17,31 @@ public class RecordatorioModel {
     private int id;
 
     @ColumnInfo(name="TEXTO")
-    private String texto;
+    private String mensaje;
 
     @ColumnInfo(name="FECHA")
     private Date fecha;
 
     public RecordatorioModel () { }
 
-    public RecordatorioModel(final String texto, final Date fecha) {
-        this.texto = texto;
+    public RecordatorioModel(final String mensaje, final Date fecha) {
+        this.mensaje = mensaje;
         this.fecha = fecha;
     }
 
-    public RecordatorioModel(int id, final String texto, final Date fecha) {
+    public RecordatorioModel(int id, final String mensaje, final Date fecha) {
         this.id = id;
-        this.texto = texto;
+        this.mensaje = mensaje;
         this.fecha = fecha;
     }
 
     public int getId() { return id; }
     public void setId(final int id) { this.id = id; }
-    public String getTexto() {
-        return texto;
+    public String getMensaje() {
+        return mensaje;
     }
-    public void setTexto(final String texto) {
-        this.texto = texto;
+    public void setMensaje(final String mensaje) {
+        this.mensaje = mensaje;
     }
     public Date getFecha() {
         return fecha;
@@ -59,11 +59,11 @@ public class RecordatorioModel {
             return false;
         }
         final RecordatorioModel that = (RecordatorioModel) other;
-        return Objects.equals(this.texto, that.texto) && Objects.equals(this.fecha, that.fecha);
+        return Objects.equals(this.mensaje, that.mensaje) && Objects.equals(this.fecha, that.fecha);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(texto) + Objects.hash(fecha);
+        return Objects.hash(mensaje) + Objects.hash(fecha);
     }
 }

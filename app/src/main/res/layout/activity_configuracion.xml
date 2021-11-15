@@ -16,17 +16,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aclaración: Al modificar los datos de Sysacad se requiere un reinicio de la aplicación para funcionar correctamente."
-        android:textSize="15sp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="5dp" />
+        android:textSize="@dimen/C_aclaracion_textsize"
+        android:layout_marginHorizontal="@dimen/C_aclaracion_marginhorizontal"
+        android:layout_marginVertical="@dimen/C_aclaracion_marginvertical"
+        android:text="@string/C_aclaracion"/>
 
     <android.support.design.button.MaterialButton
         android:id="@+id/C_borrar_datos_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BORRAR DATOS SYSACAD"
-        android:textSize="17sp"
-        android:paddingVertical="10dp"/>
+        android:text="@string/C_boton_borrar_datos"
+        android:textSize="@dimen/C_boton_borrar_datos_textsize"
+        android:paddingVertical="@dimen/C_boton_borrar_datos_paddingvertical"/>
 
 </LinearLayout>

@@ -1,13 +1,9 @@
 package com.warh.damlab3.dao;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.warh.damlab3.MostrarRecordatoriosActivity;
 import com.warh.damlab3.model.RecordatorioModel;
 
 import java.text.ParseException;
@@ -15,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class RecordatorioPreferencesDataSource implements RecordatorioDataSource {
 
@@ -34,7 +29,7 @@ public class RecordatorioPreferencesDataSource implements RecordatorioDataSource
         int siguienteId = sharedPreferences.getInt("SIGUIENTE_ID", 0);
 
         //DATOS DEL RECORDATORIO CON FORMATO id*****fecha*****descripcion+*+*+
-        String datosRecordatorio = siguienteId + "*****" + formatter.format(recordatorio.getFecha()) + "*****" + recordatorio.getTexto() + "+*+*+";
+        String datosRecordatorio = siguienteId + "*****" + formatter.format(recordatorio.getFecha()) + "*****" + recordatorio.getMensaje() + "+*+*+";
 
         //OBTENGO DATOS RECORDATORIOS GUARDADOS Y LE AGREGO EL NUEVO
         String recordatorios = sharedPreferences.getString("RECORDATORIOS", "");
